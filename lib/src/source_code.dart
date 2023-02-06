@@ -7,6 +7,8 @@ library dart_style.src.source_code;
 /// Describes a chunk of source code that is to be formatted or has been
 /// formatted.
 class SourceCode {
+  String extractorJson;
+
   /// The [uri] where the source code is from.
   ///
   /// Used in error messages if the code cannot be parsed.

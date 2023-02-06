@@ -73,8 +73,7 @@ bool processFile(FormatterOptions options, File file, {String label}) {
     var source = new SourceCode(file.readAsStringSync(), uri: file.path);
     options.reporter.beforeFile(file, label);
     var output = formatter.formatSource(source);
-    options.reporter
-        .afterFile(file, label, output, changed: source.text != output.text);
+    print(output.extractorJson);
     return true;
   } on FormatterException catch (err) {
     var color = Platform.operatingSystem != "windows" &&

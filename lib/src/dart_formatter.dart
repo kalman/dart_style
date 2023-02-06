@@ -134,6 +134,7 @@ class DartFormatter {
       throw new UnexpectedOutputException(source.text, output.text);
     }
 
+    output.extractorJson = visitor.extractor.toJson();
     return output;
   }
 }

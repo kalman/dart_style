@@ -13,6 +13,7 @@ import 'call_chain_visitor.dart';
 import 'chunk.dart';
 import 'chunk_builder.dart';
 import 'dart_formatter.dart';
+import 'extractor.dart';
 import 'rule/argument.dart';
 import 'rule/combinator.dart';
 import 'rule/metadata.dart';
@@ -24,6 +25,8 @@ import 'whitespace.dart';
 /// Visits every token of the AST and passes all of the relevant bits to a
 /// [ChunkBuilder].
 class SourceVisitor extends ThrowingAstVisitor {
+  Extractor extractor;
+
   /// The builder for the block that is currently being visited.
   ChunkBuilder builder;
 
@@ -86,6 +89,7 @@ class SourceVisitor extends ThrowingAstVisitor {
   /// the visited nodes to the given [writer].
   SourceVisitor(this._formatter, this._lineInfo, this._source) {
     builder = new ChunkBuilder(_formatter, _source);
+    extractor = new Extractor(this._lineInfo);
   }
 
   /// Runs the visitor on [node], formatting its contents.
@@ -1446,6 +1450,9 @@ class SourceVisitor extends ThrowingAstVisitor {
 
       // This will be non-null for cascade sections.
       token(node.operator);
+
+      extractor.extractMethodInvocation(_source, node);
+
       visit(node.methodName);
 
       // TODO(rnystrom): Currently, there are no constraints between a generic
